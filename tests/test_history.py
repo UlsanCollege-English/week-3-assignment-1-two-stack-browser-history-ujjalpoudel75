@@ -1,4 +1,7 @@
 import pytest
+import sys, os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
 from src.history import BrowserHistory
 
 def test_visit_and_current():
@@ -26,7 +29,6 @@ def test_back_underflow():
 # --- Edge Cases ---
 def test_edge_back_at_start_raises():
     h = BrowserHistory()
-    # no pages visited yet beyond "home"
     with pytest.raises(IndexError):
         h.back()
     assert h.current() == "home"
@@ -35,7 +37,7 @@ def test_edge_forward_when_empty_raises():
     h = BrowserHistory()
     h.visit("a")
     with pytest.raises(IndexError):
-        h.forward()  # no forward history after a fresh visit
+        h.forward()
 
 # --- Longer Scenario ---
 def test_long_navigation_session():
